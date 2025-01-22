@@ -27,30 +27,31 @@ class Signup extends AppController{
     public function handleSignup($f3){
         $newUserName = $f3->get("POST.username");
         $newUserPassword = base64_encode($f3->get("POST.password"));
-        $newUserType = $f3->get("POST.user_type");
+        $newUserAccess = $f3->get("POST.access_level");
 
         // create a database connection
         $db = new Database();
         $connection = $db->connect();
 
-        //first check if username already exist on DB table
-        $existUser = $connection->exec("SELECT username FROM users WHERE username = ?", [$newUserName]);
+        //first check if username already exist on DB table 'users'
+        $user = new \DB\SQL\Mapper($connection,"users");
+        // we use find(): returns an array of objects if finds.. else empty
+        $existUser = $user->find(array("username=?", $newUserName));
         
+        // Check if the find query returns data, 
+        //i.e. if $existUser array is not empty(true) user exist
         if($existUser){
             $f3->reroute("/signup/user-exist");
             return;
         }
 
         //if user not exist create new user
-        $results = $connection->exec(
-            "INSERT INTO users(username, password, access_level) VALUES (?,?,?)",
-            [
-                $newUserName,
-                $newUserPassword,
-                $newUserType
-            ]
-        );
-
+        $user->reset();
+        $user->username = $newUserName;
+        $user->password = $newUserPassword;
+        $user->access_level = $newUserAccess;
+        $results = $user->save();// returns the new record's ID on success, 0 on failure
+        
         //disconnect from $db
         $db->disconnect();
 
@@ -60,6 +61,7 @@ class Signup extends AppController{
         }
         else {
             $f3->reroute("/signup/signup-failure");
+            return;
         }
 
     }

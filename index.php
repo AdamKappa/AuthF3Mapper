@@ -24,7 +24,7 @@ $f3->route("GET /welcome/@status", "App\\controllers\\Welcome->render");
 // Fat-Free automatically converts underscores to hyphens in url 
 // so in controller, always access such params using underscores and navigate(route, reroute using hyphens - )
 $f3->route("GET /welcome/@rows/@updated_success", "App\\controllers\\Welcome->render");
-$f3->route("GET /login/@error", "App\\controllers\\Login->render");
+$f3->route("GET /login/@message", "App\\controllers\\Login->render");
 $f3->route("GET /editpage/@error", "App\\controllers\\EditPage->render");
 $f3->route("GET /signup/@message", "App\\controllers\\Signup->render");
 // Run F3 framework

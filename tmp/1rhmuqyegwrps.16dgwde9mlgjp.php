@@ -11,8 +11,11 @@
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         
-        <?php if ($loginMessage): ?>
-            <div class="alert alert-danger"><?= ($loginMessage) ?></div>
+        <?php if ($errorMessage): ?>
+            <div class="alert alert-danger"><?= ($errorMessage) ?></div>
+        <?php endif; ?>
+        <?php if ($successMessage): ?>
+            <div class="alert alert-success"><?= ($successMessage) ?></div>
         <?php endif; ?>
 
         <form method="post" action="<?= ($BASE) ?>/login/authenticate" >

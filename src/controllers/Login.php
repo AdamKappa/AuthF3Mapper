@@ -16,19 +16,25 @@ class Login {
             $f3->reroute('/welcome/already-loggedin/');
         }
     }
+
     public function render($f3){
 
-        //initialize template variable loginMessage
-        $f3->set("loginMessage", NULL);
+        //initialize template variables errorMessage and successMessage
+        $f3->set("errorMessage", NULL);
+        $f3->set("successMessage", NULL);
         // get the route parameter 'error' 
-        $error = $f3->get("PARAMS.error");
-        if($error === "invalid-credentials"){
+        $message = $f3->get("PARAMS.message");
+        if($message === "invalid-credentials"){
             // set template variable $loginMessage 
-            $f3->set("loginMessage","Invalid credentials. Please try again.");
+            $f3->set("errorMessage","Invalid credentials. Please try again.");
         }
-        else if($error === "not-loggedIn"){
+        else if($message === "not-loggedIn"){
             // set template variable $loginMessage 
-            $f3->set("loginMessage","Please login first.");
+            $f3->set("errorMessage","Please login first.");
+        }
+        else if($message === "signup-success"){
+            // set template variable $loginMessage 
+            $f3->set("successMessage","Sign-up successful! You can now log in to your account.");
         }
         // Render login page template
         echo \Template::instance()->render("/src/pages/login/login.php");
@@ -70,14 +76,20 @@ class Login {
             // Get database connection
             $conn = $db->connect();
             
-            // Query the database to check user credentials [use parameterized method.. like prepare statement]
-            $user = $conn->exec("SELECT id,username,access_level FROM users WHERE username = ? AND password = ?", [$username, $password]);
+            // lets use a Mapper to work with Object-Relational Mapper (ORM) to query the BD:
+            // tell Mapper which connection($conn) to use to connect to DB, and which table to see.
+            $user = new \DB\SQL\Mapper($conn,"users");//At this point, the mapper object($user) does not contain any data yet (it is called "dry state")... wait for load()
+            
+            //the select query: from users table select/load those with username=$username, and password=$password (prepared statement)
+            $user->load(array("username=? AND password=?",$username, $password));// now the mapper object($user) contains data. This process is called "auto-hydrating" the data mapper object. 
 
-            // Check if user exists
-            if ($user) {
+            // Check if the query returns data, i.e. if $user mapper is not dry..
+            // dry(): returns TRUE if the cursor is not mapped to any database record, even if records have been load()ed.
+            // dry() works after load() not after find() (and maybe not with other methods too)
+            if (!$user->dry()) {
                 //success
                 //create a LoggedInUser object, disconnect from $db and return LoggedInUser object
-                $LoggedInUser = new LoggedInUser($user[0]["id"], $user[0]["username"], $user[0]["access_level"]);
+                $LoggedInUser = new LoggedInUser($user->ID, $user->username, $user->access_level);
                 $db->disconnect();
                 return $LoggedInUser;
                 //return true; // Success

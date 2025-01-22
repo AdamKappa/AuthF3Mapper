@@ -11,8 +11,11 @@
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         
-        <check if="{{ @loginMessage }}">
-            <div class="alert alert-danger">{{  @loginMessage }}</div>
+        <check if="{{ @errorMessage }}">
+            <div class="alert alert-danger">{{  @errorMessage }}</div>
+        </check>
+        <check if="{{ @successMessage }}">
+            <div class="alert alert-success">{{  @successMessage }}</div>
         </check>
 
         <form method="post" action="{{@BASE}}/login/authenticate" >
