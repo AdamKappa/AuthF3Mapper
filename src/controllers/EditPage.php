@@ -30,7 +30,7 @@ class EditPage extends Authorizer{
         // $f3->set("UserName",$UserData->username);
         // $f3->set("UserAccess",$UserData->access_level);
         
-        // Fetch all users from the database (for admin view)
+        // Fetch all users from the database (for admin view)*******************
         $db = new Database();
         $connection = $db->connect();
         $usersResults = $connection->exec("SELECT ID, username FROM users");
@@ -51,13 +51,23 @@ class EditPage extends Authorizer{
         $db = new Database();
         $connection = $db->connect();
 
+        //Update DB with user's data using Mapper
+        
+        $userSimple = new \DB\SQL\Mapper($connection,"users");
+        $userSimple->reset();
+        $userSimple->load(array("ID=?", $userID));
+        $userSimple->username = $newUsername;
+        $userSimple->password = $newPassword;
+        $result = $userSimple->save();
+
         // Update DB with user's data using prepared statements
-        $result = $connection->exec("UPDATE users SET username = ?, password = ? WHERE ID = ?", [$newUsername, $newPassword, $userID]
-        );
+        // $result = $connection->exec(
+        //     "UPDATE users SET username = ?, password = ? WHERE ID = ?", 
+        //     [$newUsername, $newPassword, $userID]);
 
         // Disconnect from $db
         $db->disconnect();
-
+        //print_r($result->cast());
         if ($result) {
             $f3->reroute('/welcome/success-update');
             return;
@@ -84,19 +94,33 @@ class EditPage extends Authorizer{
         $db = new Database();
         $connection = $db->connect();
         
+        //create Mapper for the DB
+        $user = new \DB\SQL\Mapper($connection,"users");
+
         $rows_affected = 0;
         // for each selectedUser run a query to database using prepared statement.
         foreach ($selectedUsers as $selectedUserID) {
-            $rows = $connection->exec(
-                "UPDATE users SET username = ?, password = ? WHERE ID = ?", 
-                [ 
-                    $usernames[$selectedUserID], 
-                    base64_encode($passwords[$selectedUserID]), 
-                    $selectedUserID,
-                ]
-            );
-
-            $rows_affected += $rows;
+            
+            
+            $user->reset();
+            $user->load(array("ID=?", $selectedUserID));
+            $user->username = $usernames[$selectedUserID];
+            $user->password = base64_encode($passwords[$selectedUserID]);
+            $result = $user->save();
+            
+            // $rows = $connection->exec(
+            //     "UPDATE users SET username = ?, password = ? WHERE ID = ?", 
+            //     [ 
+            //         $usernames[$selectedUserID], 
+            //         base64_encode($passwords[$selectedUserID]), 
+            //         $selectedUserID,
+            //     ]
+            // );
+            
+            //print_r($result->cast());
+            if($result){
+                $rows_affected++;
+            }
         }
 
         // Disconnect from $db

@@ -46,12 +46,19 @@ class Signup extends AppController{
         }
 
         //if user not exist create new user
+        //first unset the mapper (to be save that Mapper does not keep the previous record..if ιτ contains it)
         $user->reset();
+        //to use this way to get form data (from global vsariable POST)
+        //The copyFrom('POST') or copyTo('POST'); method hydrates the mapper object with elements from framework array variable POST, 
+        //the array keys of which (e.g. POST.username) must have names identical to the mapper object properties($user->username), 
+        //which in turn correspond to the record's field names(in HTML field name="username"). 
+        //$user->copyFrom("POST"); 
+        //but this is way is considered as best practice (e.g. we want to encrypt the password before store it to DB)
         $user->username = $newUserName;
         $user->password = $newUserPassword;
         $user->access_level = $newUserAccess;
         $results = $user->save();// returns the new record's ID on success, 0 on failure
-        
+
         //disconnect from $db
         $db->disconnect();
 
