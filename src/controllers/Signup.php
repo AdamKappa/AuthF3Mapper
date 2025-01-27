@@ -6,6 +6,16 @@ namespace App\controllers;
 use App\models\Database;
 
 class Signup {
+
+    public function beforeroute($f3){
+        //authorize here. Check if user is loggedin 
+        if ($f3->get('SESSION.loggedIn')) {
+            // if user is loggedin, redirect to the welcome page with appropriate message
+            $f3->reroute("/welcome/already-loggedin");
+        }
+        
+    }
+
     public function render($f3){
 
         //initialize template variable message
@@ -20,8 +30,12 @@ class Signup {
             $f3->set("message", "Failed to sign up. Please try again.");
         }
         
+        $f3->set("pageTitle", "Sign up");
+        $f3->set("pageContent", \Template::instance()->render("src/pages/signup/signup.php") );
+        $f3->set("pageCss", '<link rel="stylesheet" href="/src/pages/signup/signup.css">');
+        $f3->set("pageJS",'<script src="{{@BASE}}/src/pages/signup/signup.js" defer></script>');
         //render Sign Up page
-        echo \Template::instance()->render("src/pages/signup/signup.php");
+        echo \Template::instance()->render("/src/pages/layout.html");
     }
 
     public function handleSignup($f3){

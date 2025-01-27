@@ -32,7 +32,7 @@ class EditPage extends Authorizer{
         
         // Fetch all users from the database (for admin view only)*******************
         if($userData->access_level == "Administrator"){
-            echo "Admin edit";
+            
             $db = new Database();
             $connection = $db->connect();
             $usersResults = $connection->exec("SELECT ID, username FROM users");
@@ -40,8 +40,12 @@ class EditPage extends Authorizer{
             $Users = $f3->set("Users", $usersResults);  
         }
         
+        $f3->set("pageTitle", "Edit Page");
+        $f3->set("pageContent", \Template::instance()->render("/src/pages/editpage/editpage.php") );
+        $f3->set("pageCss", '<link rel="stylesheet" href="/src/pages/editpage/editpage.css">');
+        $f3->set("pageJS", NULL);
         //render Edit page
-        echo \Template::instance()->render("/src/pages/editpage/editpage.php");
+        echo \Template::instance()->render("/src/pages/layout.html");
     }
 
     public function submitNewDataSimpleUser($f3){

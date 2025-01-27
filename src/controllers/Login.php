@@ -36,8 +36,13 @@ class Login {
             // set template variable $loginMessage 
             $f3->set("successMessage","Sign-up successful! You can now log in to your account.");
         }
+
+        $f3->set("pageTitle", "Login");
+        $f3->set("pageContent", \Template::instance()->render("/src/pages/login/login.php") );
+        $f3->set("pageCss", '<link rel="stylesheet" href="/src/pages/login/login.css">');
+        $f3->set("pageJS", NULL);
         // Render login page template
-        echo \Template::instance()->render("/src/pages/login/login.php");
+        echo \Template::instance()->render("/src/pages/layout.html");
     }
 
     public function handleLogin($f3) {

@@ -39,9 +39,12 @@ class Welcome extends Authorizer {
         $f3->set("username", $userData->username);
         $f3->set("accessLevel", $userData->access_level);
         
-
+        $f3->set("pageTitle", "Sign up");
+        $f3->set("pageContent", \Template::instance()->render('/src/pages/welcome/welcome.php') );
+        $f3->set("pageCss", '<link rel="stylesheet" href="/src/pages/welcome/welcome.css">');
+        $f3->set("pageJS", NULL);
         // Render the welcome page
-        echo \Template::instance()->render('/src/pages/welcome/welcome.php');
+        echo \Template::instance()->render("/src/pages/layout.html");
     }
 }
 ?>
