@@ -5,7 +5,7 @@
 require_once("vendor/autoload.php");
 
 //get an instance of F3 framework's Base class
-$f3 = Base::instance();
+$f3 = \Base::instance();
 $f3->set("DEBUG",3);
 // Define routes (using the new App namespace, from composer.json)
 $f3->route("GET /", "App\\controllers\\Home->render");

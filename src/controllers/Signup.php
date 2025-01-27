@@ -5,7 +5,7 @@ namespace App\controllers;
 // Import the Database class
 use App\models\Database;
 
-class Signup extends AppController{
+class Signup {
     public function render($f3){
 
         //initialize template variable message

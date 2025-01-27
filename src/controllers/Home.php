@@ -2,7 +2,7 @@
 
 namespace App\controllers;
 
-class Home extends AppController{
+class Home {
     public function render($f3){
         // Check if the user is logged in
         if ($f3->exists('SESSION.loggedIn') && $f3->get('SESSION.loggedIn')) {
