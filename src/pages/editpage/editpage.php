@@ -1,5 +1,5 @@
-
-    <div class="wrapper">
+<div class="container">
+    <div class="edit-wrapper">
         <h2>Edit page</h2>
         <p>Hi {{ @UserData->username }}!</p>
     
@@ -56,3 +56,4 @@
     <check if="{{ $message }}">
         <div class="alert alert-info"> {{ $message }}</div>
     </check>
+</div>

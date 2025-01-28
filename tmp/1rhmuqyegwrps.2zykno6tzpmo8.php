@@ -1,5 +1,6 @@
 
-    <div class="wrapper">
+<div class="container">
+    <div class="signup-wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
         <form method="post" action="<?= ($BASE) ?>/signup">
@@ -36,3 +37,4 @@
             <div class="alert alert-danger" ><?= ($message) ?></div>
         <?php endif; ?>
     </div>
+</div>

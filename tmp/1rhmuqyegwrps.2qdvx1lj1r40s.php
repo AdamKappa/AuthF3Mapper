@@ -1,5 +1,5 @@
-
-    <div class="wrapper">
+<div class="container">
+    <div class="edit-wrapper">
         <h2>Edit page</h2>
         <p>Hi <?= ($UserData->username) ?>!</p>
     
@@ -51,3 +51,4 @@
     <?php if ($message): ?>
         <div class="alert alert-info"> <?= ($message) ?></div>
     <?php endif; ?>
+</div>

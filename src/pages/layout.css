@@ -1,6 +1,19 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full viewport height */
+}
+
+/* header and footer take only their required space */
 header, footer {
-    background-color: #b86bff;
-    padding: 20px;
+  flex-shrink: 0;/* Prevent shrinking */
+  background-color: #b86bff;
+  padding: 20px;
+}
+/* Main takes all the remaining space */
+main {
+  flex-grow: 1; /* Take all available space */
+  display: flex; /* Make main a flex container */
 }
 
 header{

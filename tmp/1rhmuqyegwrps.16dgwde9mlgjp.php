@@ -1,5 +1,6 @@
 
-    <div class="wrapper">
+<div class="container">
+    <div class="login-wrapper">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         
@@ -25,3 +26,4 @@
             <p>Don't have an account? <a href="<?= ($BASE) ?>/signup">Sign up now</a>.</p>
         </form>
     </div>
+</div>
