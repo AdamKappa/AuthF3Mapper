@@ -41,3 +41,8 @@ nav a:hover {
   background-color: #555; /* Darker background on hover */
   border-radius: 5px; /* Slightly rounded corners on hover */
 }
+
+.message{
+  margin: 20px 0px;
+  width: fit-content;
+}

@@ -1,20 +1,16 @@
-.welcome-wrapper{
+.welcome-container{
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-}
-
-.inner-wrapper{
-    display: flex;
-    flex-direction: column;
-    
-}
-
-.exit-container, .welcome-container{
     padding: 20px;
 }
 
-.exit-container{
+.exit-wrapper{
     display: flex;
     flex-direction: row-reverse;
+}
+
+.welcome-wrapper{
+	display: flex;
+	flex-direction: column;
 }
