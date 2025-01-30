@@ -33,7 +33,7 @@ class Signup {
         $f3->set("pageTitle", "Sign up");
         $f3->set("pageContent", \Template::instance()->render("src/pages/signup/signup.php") );
         $f3->set("pageCss", '<link rel="stylesheet" href="/src/pages/signup/signup.css">');
-        $f3->set("pageJS",'<script src="{{@BASE}}/src/pages/signup/signup.js" defer></script>');
+        $f3->set("pageJS",'<script src="/src/pages/signup/signup.js" defer></script>');
         //render Sign Up page
         echo \Template::instance()->render("/src/pages/layout.html");
     }
